@@ -19,13 +19,13 @@ public class Bloxorz {
         combinaciones = new ArrayList<>();
     }
 
-    public boolean comprobarRango(int x, int y, int x2, int y2, Rectangulo rectangulo, int[][] sol){
+    public boolean comprobarRango(int x, int y, int x2, int y2, Rectangulo rectangulo, int[][] mapa){
         if(rectangulo.isDePie()){
-            if(x < 0 || x >= sol.length || y < 0 || y >= sol[0].length || sol[x][y] == 0)
+            if(x < 0 || x >= mapa.length || y < 0 || y >= mapa[0].length || mapa[x][y] == 0)
                 return false;
             return true;
         } else {
-            if(x < 0 || x >= sol.length || y < 0 || y >= sol[0].length || x2 < 0 || x2 >= sol.length || y2 < 0 || y2 >= sol[0].length || sol[x][y] == 0 || sol[x2][y2] == 0)
+            if(x < 0 || x >= mapa.length || y < 0 || y >= mapa[0].length || x2 < 0 || x2 >= mapa.length || y2 < 0 || y2 >= mapa[0].length || mapa[x][y] == 0 || mapa[x2][y2] == 0)
                 return false;
             return true;
         }
@@ -37,7 +37,7 @@ public class Bloxorz {
         }
     }
 
-    private boolean findPathDown(int x, int y, int[][] mapa, int[][] sol, Rectangulo rectangulo){
+    private boolean findPathDown(int x, int y, int[][] mapa, Rectangulo rectangulo){
         if(rectangulo.isDePie() && x == endX && y == endY)
             return true;
 
@@ -50,20 +50,20 @@ public class Bloxorz {
             bucles[x][y] = 1;
         }
 
-        if(comprobacionesAbajo(rectangulo, sol, mapa))
+        if(comprobacionesAbajo(rectangulo, mapa))
             return true;
 
-        if(comprobacionesDerecha(rectangulo, sol, mapa))
+        if(comprobacionesDerecha(rectangulo, mapa))
             return true;
 
-        if(comprobacionesIzquierda(rectangulo, sol, mapa))
+        if(comprobacionesIzquierda(rectangulo, mapa))
             return true;
 
 
         return false;
     }
 
-    private boolean findPathLeft(int x, int y, int[][] mapa, int[][] sol, Rectangulo rectangulo){
+    private boolean findPathLeft(int x, int y, int[][] mapa, Rectangulo rectangulo){
         if(rectangulo.isDePie() && x == endX && y == endY)
             return true;
 
@@ -76,17 +76,17 @@ public class Bloxorz {
             bucles[x][y] = 1;
         }
 
-        if(comprobacionesIzquierda(rectangulo, sol, mapa))
+        if(comprobacionesIzquierda(rectangulo, mapa))
             return true;
-        if(comprobacionesArriba(rectangulo, sol, mapa))
+        if(comprobacionesArriba(rectangulo, mapa))
             return true;
-        if(comprobacionesAbajo(rectangulo, sol, mapa))
+        if(comprobacionesAbajo(rectangulo, mapa))
             return true;
 
         return false;
     }
 
-    private boolean findPathUp(int x, int y, int[][] mapa, int[][] sol, Rectangulo rectangulo){
+    private boolean findPathUp(int x, int y, int[][] mapa, Rectangulo rectangulo){
         if(x == endX && y == endY && rectangulo.isDePie())
             return true;
 
@@ -102,23 +102,23 @@ public class Bloxorz {
         // * Vamos hacia arriba
         // * Comprobacion si vamos arriba, multiples casos
 
-        if(comprobacionesArriba(rectangulo, sol, mapa)){
+        if(comprobacionesArriba(rectangulo, mapa)){
             return true;
         }
 
         // * Comprobación si vamos hacia la derecha
 
-        if(comprobacionesDerecha(rectangulo, sol, mapa)){
+        if(comprobacionesDerecha(rectangulo, mapa)){
             return true;
         }
 
-        if(comprobacionesIzquierda(rectangulo, sol, mapa))
+        if(comprobacionesIzquierda(rectangulo, mapa))
             return true;
 
         return false;
     }
 
-    private boolean findPathRight(int x, int y, int[][] mapa, int[][] sol, Rectangulo rectangulo){
+    private boolean findPathRight(int x, int y, int[][] mapa, Rectangulo rectangulo){
         if(x == endX && y == endY && rectangulo.isDePie())
             return true;
 
@@ -130,18 +130,18 @@ public class Bloxorz {
         if(rectangulo.isDePie()){
             bucles[x][y] = 1;
         }
-        if(comprobacionesDerecha(rectangulo, sol, mapa))
+        if(comprobacionesDerecha(rectangulo, mapa))
             return true;
-        if(comprobacionesArriba(rectangulo, sol, mapa))
+        if(comprobacionesArriba(rectangulo, mapa))
             return true;
-        if(comprobacionesAbajo(rectangulo, sol, mapa))
+        if(comprobacionesAbajo(rectangulo, mapa))
             return true;
 
 
         return false;
     }
 
-    private boolean comprobacionesAbajo(Rectangulo rectangulo, int[][] sol, int[][] mapa){
+    private boolean comprobacionesAbajo(Rectangulo rectangulo, int[][] mapa){
         int getX = rectangulo.getPunto1().getX();
         int getY = rectangulo.getPunto1().getY();
 
@@ -151,16 +151,12 @@ public class Bloxorz {
             if(comprobarRango(getX + 1, getY, getX + 2, getY, rectangulo, mapa)){
                 rectangulo.setPunto1(new Punto(getX + 1, getY));
                 //rectangulo.setPunto2(new Punto(getX + 2, getY));
-                sol[getX + 1][getY] = 1;
-                sol[getX + 2][getY] = 1;
                 combinaciones.add("abajo");
-                if(findPathDown(getX + 1, getY, mapa, sol, rectangulo))
+                if(findPathDown(getX + 1, getY, mapa, rectangulo))
                     return true;
 
                 rectangulo.setPunto1(new Punto(getX, getY));
                 //rectangulo.setPunto2(new Punto(getX, getY));
-                sol[getX + 1][getY] = 0;
-                sol[getX + 2][getY] = 0;
                 combinaciones.remove(combinaciones.size() - 1);
             }
             rectangulo.setDePie(true);
@@ -169,15 +165,11 @@ public class Bloxorz {
                 if(comprobarRango(getX + 1, getY, getX + 1, getY - 1, rectangulo, mapa)){
                     rectangulo.setPunto1(new Punto(getX + 1, getY));
                     //rectangulo.setPunto2(new Punto(getX + 1, getY - 1));
-                    sol[getX + 1][getY] = 1;
-                    sol[getX + 1][getY - 1] = 1;
                     combinaciones.add("abajo");
-                    if(findPathDown(getX + 1, getY, mapa, sol, rectangulo))
+                    if(findPathDown(getX + 1, getY, mapa, rectangulo))
                         return true;
                     rectangulo.setPunto1(new Punto(getX, getY));
                     //rectangulo.setPunto2(new Punto(getX, getY - 1));
-                    sol[getX + 1][getY] = 0;
-                    sol[getX + 1][getY - 1] = 0;
                     combinaciones.remove(combinaciones.size() - 1);
                 }
             } else {
@@ -185,13 +177,11 @@ public class Bloxorz {
                 if(comprobarRango(getX + 2, getY, getX + 2, getY, rectangulo, mapa)){
                     rectangulo.setPunto1(new Punto(getX + 2, getY));
                     //rectangulo.setPunto2(new Punto(getX + 2, getY));
-                    sol[getX + 2][getY] = 1;
                     combinaciones.add("abajo");
-                    if(findPathDown(getX + 2, getY, mapa, sol, rectangulo))
+                    if(findPathDown(getX + 2, getY, mapa, rectangulo))
                         return true;
                     rectangulo.setPunto1(new Punto(getX, getY));
                     //rectangulo.setPunto2(new Punto(getX + 1, getY));
-                    sol[getX + 2][getY] = 0;
                     combinaciones.remove(combinaciones.size() - 1);
                 }
                 rectangulo.setDePie(false);
@@ -201,7 +191,7 @@ public class Bloxorz {
         return false;
     }
 
-    private boolean comprobacionesIzquierda(Rectangulo rectangulo, int[][] sol, int[][] mapa){
+    private boolean comprobacionesIzquierda(Rectangulo rectangulo, int[][] mapa){
         int getX = rectangulo.getPunto1().getX();
         int getY = rectangulo.getPunto1().getY();
 
@@ -211,16 +201,12 @@ public class Bloxorz {
             if(comprobarRango(getX, getY - 1, getX, getY - 2, rectangulo, mapa)){
                 rectangulo.setPunto1(new Punto(getX, getY - 1));
                 //rectangulo.setPunto2(new Punto(getX, getY - 2));
-                sol[getX][getY - 1] = 1;
-                sol[getX][getY - 2] = 1;
                 combinaciones.add("izquierda");
-                if(findPathLeft(getX, getY - 1, mapa, sol, rectangulo))
+                if(findPathLeft(getX, getY - 1, mapa, rectangulo))
                     return true;
                 rectangulo.setPunto1(new Punto(getX, getY));
                 //rectangulo.setPunto2(new Punto(getX, getY));
-                sol[getX][getY - 1] = 0;
                 combinaciones.remove(combinaciones.size() - 1);
-                sol[getX][getY - 2] = 0;
             }
             rectangulo.setDePie(true);
             rectangulo.setHorizontal(false);
@@ -231,13 +217,11 @@ public class Bloxorz {
                 if(comprobarRango(getX, getY - 2, getX, getY - 2, rectangulo, mapa)){
                     rectangulo.setPunto1(new Punto(getX, getY - 2));
                     //rectangulo.setPunto2(new Punto(getX, getY - 2));
-                    sol[getX][getY - 2] = 1;
                     combinaciones.add("izquierda");
-                    if(findPathLeft(getX, getY - 2, mapa, sol, rectangulo))
+                    if(findPathLeft(getX, getY - 2, mapa, rectangulo))
                         return true;
                     rectangulo.setPunto1(new Punto(getX, getY));
                     ///rectangulo.setPunto2(new Punto(getX, getY - 1));
-                    sol[getX][getY - 2] = 0;
                     combinaciones.remove(combinaciones.size() - 1);
                 }
                 rectangulo.setDePie(false);
@@ -246,15 +230,11 @@ public class Bloxorz {
                 if(comprobarRango(getX, getY - 1, getX + 1, getY - 1, rectangulo, mapa)){
                     rectangulo.setPunto1(new Punto(getX, getY - 1));
                     //rectangulo.setPunto2(new Punto(getX + 1, getY - 1));
-                    sol[getX][getY - 1] = 1;
-                    sol[getX + 1][getY - 1] = 1;
                     combinaciones.add("izquierda");
-                    if(findPathLeft(getX, getY - 1, mapa, sol, rectangulo))
+                    if(findPathLeft(getX, getY - 1, mapa, rectangulo))
                         return true;
                     rectangulo.setPunto1(new Punto(getX, getY));
                     //rectangulo.setPunto2(new Punto(getX + 1, getY));
-                    sol[getX][getY - 1] = 0;
-                    sol[getX + 1][getY - 1] = 0;
                     combinaciones.remove(combinaciones.size() - 1);
                 }
             }
@@ -262,7 +242,7 @@ public class Bloxorz {
         return false;
     }
 
-    private boolean comprobacionesDerecha(Rectangulo rectangulo, int[][] sol, int[][] mapa){
+    private boolean comprobacionesDerecha(Rectangulo rectangulo, int[][] mapa){
         int getX = rectangulo.getPunto1().getX();
         int getY = rectangulo.getPunto1().getY();
 
@@ -272,16 +252,12 @@ public class Bloxorz {
             if(comprobarRango(getX, getY + 2, getX, getY + 1, rectangulo, mapa)){
                 rectangulo.setPunto1(new Punto(getX, getY + 2));
                 //rectangulo.setPunto2(new Punto(getX, getY + 1));
-                sol[getX][getY + 2] = 1;
-                sol[getX][getY + 1] = 1;
                 combinaciones.add("derecha");
-                if(findPathRight(getX, getY + 2, mapa, sol, rectangulo)){
+                if(findPathRight(getX, getY + 2, mapa, rectangulo)){
                     return true;
                 }
                 rectangulo.setPunto1(new Punto(getX, getY));
                 //rectangulo.setPunto2(new Punto(getX, getY));
-                sol[getX][getY + 2] = 0;
-                sol[getX][getY + 1] = 0;
                 combinaciones.remove(combinaciones.size() - 1);
             }
             rectangulo.setDePie(true);
@@ -293,15 +269,11 @@ public class Bloxorz {
                 if(comprobarRango(getX, getY + 1, getX, getY + 1, rectangulo, mapa)){
                     rectangulo.setPunto1(new Punto(getX, getY + 1));
                     //rectangulo.setPunto2(new Punto(getX, getY + 1));
-                    sol[getX][getY + 1] = 1;
-                    sol[getX][getY + 1] = 1;
                     combinaciones.add("derecha");
-                    if(findPathRight(getX, getY + 1, mapa, sol, rectangulo))
+                    if(findPathRight(getX, getY + 1, mapa, rectangulo))
                         return true;
                     rectangulo.setPunto1(new Punto(getX, getY));
                     //rectangulo.setPunto2(new Punto(getX, getY-1));
-                    sol[getX][getY + 1] = 0;
-                    sol[getX][getY + 1] = 0;
                     combinaciones.remove(combinaciones.size() - 1);
                 }
                 rectangulo.setDePie(false);
@@ -310,15 +282,11 @@ public class Bloxorz {
                 if(comprobarRango(getX, getY + 1, getX + 1, getY + 1, rectangulo, mapa)){
                     rectangulo.setPunto1(new Punto(getX, getY + 1));
                     //rectangulo.setPunto2(new Punto(getX + 1, getY + 1));
-                    sol[getX][getY + 1] = 1;
-                    sol[getX + 1][getY + 1] = 1;
                     combinaciones.add("derecha");
-                    if(findPathRight(getX, getY + 1, mapa, sol, rectangulo))
+                    if(findPathRight(getX, getY + 1, mapa, rectangulo))
                         return true;
                     rectangulo.setPunto1(new Punto(getX, getY));
                     //rectangulo.setPunto2(new Punto(getX + 1, getY));
-                    sol[getX][getY + 1] = 0;
-                    sol[getX + 1][getY + 1] = 0;
                     combinaciones.remove(combinaciones.size() - 1);
                 }
             }
@@ -326,7 +294,7 @@ public class Bloxorz {
         return false;
     }
 
-    private boolean comprobacionesArriba(Rectangulo rectangulo, int[][] sol, int[][] mapa){
+    private boolean comprobacionesArriba(Rectangulo rectangulo, int[][] mapa){
         int getX = rectangulo.getPunto1().getX();
         int getY = rectangulo.getPunto1().getY();
 
@@ -338,16 +306,12 @@ public class Bloxorz {
                 //rectangulo.setPunto2(new Punto(getX - 1, getY));
                 rectangulo.setDePie(false);
                 rectangulo.setHorizontal(false);
-                sol[getX - 2][getY] = 1;
-                sol[getX - 1][getY] = 1;
                 combinaciones.add("Arriba");
-                if(findPathUp(getX - 2, getY, mapa, sol, rectangulo)){
+                if(findPathUp(getX - 2, getY, mapa, rectangulo)){
                     return true;
                 } else {
                     rectangulo.setPunto1(new Punto(getX, getY));
                     //rectangulo.setPunto2(new Punto(getX, getY));
-                    sol[getX - 2][getY] = 0;
-                    sol[getX - 1][getY] = 0;
                     combinaciones.remove(combinaciones.size() - 1);
                 }
             }
@@ -358,16 +322,12 @@ public class Bloxorz {
                 if(comprobarRango(getX - 1, getY, getX - 1, getY - 1, rectangulo, mapa)){
                     rectangulo.setPunto1(new Punto(getX - 1, getY));
                     //rectangulo.setPunto2(new Punto(getX - 1, getY - 1));
-                    sol[getX - 1][getY] = 1;
-                    sol[getX - 1][getY - 1] = 1;
                     combinaciones.add("Arriba");
-                    if(findPathUp(getX - 1, getY,mapa, sol, rectangulo)){
+                    if(findPathUp(getX - 1, getY,mapa, rectangulo)){
                         return true;
                     } else {
                         rectangulo.setPunto1(new Punto(getX, getY));
                         //rectangulo.setPunto2(new Punto(getX, getY - 1));
-                        sol[getX - 1][getY] = 0;
-                        sol[getX - 1][getY - 1] = 0;
                         combinaciones.remove(combinaciones.size() - 1);
                     }
                 }
@@ -378,15 +338,13 @@ public class Bloxorz {
                 if(comprobarRango(getX - 1, getY, getX - 1, getY, rectangulo, mapa)){
                     rectangulo.setPunto1(new Punto(getX - 1, getY));
                     //rectangulo.setPunto2(new Punto(getX - 1, getY));
-                    sol[getX - 1][getY] = 1;
                     combinaciones.add("Arriba");
-                    if(findPathUp(getX - 1, getY, mapa, sol, rectangulo)){
+                    if(findPathUp(getX - 1, getY, mapa, rectangulo)){
                         return true;
                     } else {
                         rectangulo.setPunto1(new Punto(getX, getY));
                         //rectangulo.setPunto2(new Punto(getX + 1, getY));
                         combinaciones.remove(combinaciones.size() - 1);
-                        sol[getX - 1][getY] = 0;
                     }
                 }
                 rectangulo.setDePie(false);
@@ -395,23 +353,23 @@ public class Bloxorz {
         return false;
     }
 
-    private boolean findPath(int x, int y, int[][] mapa, Rectangulo rectangulo, int[][] sol){
+    private boolean findPath(int x, int y, int[][] mapa, Rectangulo rectangulo){
         if(x == endX && y == endY && rectangulo.isDePie())
             return true;
 
         // * Ahora tenemos que ir hacia todos los caminos posibles
 
         // * Camino hacia arriba
-        if(comprobacionesArriba(rectangulo, sol, mapa))
+        if(comprobacionesArriba(rectangulo, mapa))
             return true;
 
-        if(comprobacionesDerecha(rectangulo, sol, mapa))
+        if(comprobacionesDerecha(rectangulo, mapa))
             return true;
 
-        if(comprobacionesIzquierda(rectangulo, sol, mapa))
+        if(comprobacionesIzquierda(rectangulo, mapa))
             return true;
 
-        if(comprobacionesAbajo(rectangulo, sol, mapa))
+        if(comprobacionesAbajo(rectangulo, mapa))
             return true;
 
         return false;
@@ -423,10 +381,8 @@ public class Bloxorz {
         bucles = new int[mapa.length][mapa[0].length];
         combinaciones = new ArrayList<>();
         Rectangulo rectangulo = new Rectangulo(x, y);
-        int[][] sol = new int[mapa.length][mapa[0].length];
-        sol[x][y] = 1;
 
-        if(!findPath(x, y, mapa, rectangulo, sol)){
+        if(!findPath(x, y, mapa, rectangulo)){
             System.out.println("No existe ninguna solucion");
             return false;
         } else {
