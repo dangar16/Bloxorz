@@ -1,6 +1,18 @@
 package Bloxorz;
 
 public class Rectangulo {
+    /*
+     * En el juego el rectángulo puede estar en varias posiciones, de pie, tumbado horizontalmete o tumbado verticalmente
+     * Esta clase sirve para almacenar el estado del rectángulo
+     * Los puntos que se guardan son la base del rectángulo, pueden haber tres tipos de base distintos:
+     * Si el rectángulo está de pie, su base será su posición actual
+     * Si el rectángulo está tumbado horizontalmente, su base será el lado derecho del rectángulo
+     * Si el rectángulo está tumbado verticalmente, su base será el lado de arriba del rectángulo
+     *
+     * Fijamos una base para luego poder realizar los movimientos de forma más cómoda.
+     ! El rectángulo tiene otra posición más que no hemos añadido a esta clase porque al fijar la base podemos
+     ! calcular cuál es su posición restando o sumando las coordenadas X e Y de la base
+     */
     private boolean dePie;
     private boolean horizontal;
     private Punto punto1;
