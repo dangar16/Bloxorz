@@ -22,11 +22,11 @@ public class Bloxorz {
 
     /**
      *
-     * @param x Posicion actual de la fila de la base
-     * @param y Posicion actual de la columna de la base
-     * @param x2 Posicion actual de la fila del cubo al lado de la base
-     * @param y2 Posicion actual de la columna del cubo al lado de la base
-     * @param rectangulo Objeto rectangula para comprobar su estado
+     * @param x Posición actual de la fila de la base
+     * @param y Posición actual de la columna de la base
+     * @param x2 Posición actual de la fila del cubo al lado de la base
+     * @param y2 Posición actual de la columna del cubo al lado de la base
+     * @param rectangulo Objeto rectángulo para comprobar su estado
      * @param mapa Mapa a resolver, se usa para comprobar si podemos ir por un camino
      * @return Devuelve true si las posiciones no están fuera de rango y se encuentran dentro del camino del mapa
      */
@@ -43,21 +43,21 @@ public class Bloxorz {
     }
 
     /**
-     * * Si existe una solución, muestra el mapa
-     * @param sol Mapa a resolver
+     *  Si existe una solución, muestra el mapa
+     * @param mapa Mapa a resolver
      */
-    private void mostrarMapa(int[][] sol){
-        for(int i = 0; i < sol.length; i++){
-            System.out.println(Arrays.toString(sol[i]));
+    private void mostrarMapa(int[][] mapa){
+        for(int i = 0; i < mapa.length; i++){
+            System.out.println(Arrays.toString(mapa[i]));
         }
     }
 
     /**
      *
-     * @param x Posicion x de la base
-     * @param y Posicion y de la base
+     * @param x Posición x de la base
+     * @param y Posición y de la base
      * @param mapa Mapa a resolver
-     * @param rectangulo Objeto rectangulo para comprobar su estado
+     * @param rectangulo Objeto rectángulo para comprobar su estado
      * @return Devuelve true si ha encontrado el camino a la solución, false en caso contrario
      */
     private boolean encontrarCaminoAbajo(int x, int y, int[][] mapa, Rectangulo rectangulo){
@@ -145,23 +145,25 @@ public class Bloxorz {
         if(rectangulo.isDePie()){
             bucles[x][y] = 1;
         }
+
         if(comprobacionesDerecha(rectangulo, mapa))
             return true;
+
         if(comprobacionesArriba(rectangulo, mapa))
             return true;
+
         if(comprobacionesAbajo(rectangulo, mapa))
             return true;
-
 
         return false;
     }
 
     /**
-     * * Este método llama recursivamente a encontrarCaminoAbajo, primero comprueba que el rectangulo se pueda mover hacia abajo
-     * * dependiendo de su posición (de pie, tumbado horizontalmente o tumbado verticalmente)
-     * * si puede moverse actualizamos su coordenada base y volvemos a llamar encontrarCaminoAbajo.
-     * * En el caso de que la llamada recursiva devuelva false (No ha encontrado ningún camino) colocamos el rectángulo
-     * * en su posición original y eliminamos de la lista comprobaciones el movimiento realizado (Backtracking) y devolvemos false.
+     *  Este método llama recursivamente a encontrarCaminoAbajo, primero comprueba que el rectángulo se pueda mover hacia abajo
+     *  dependiendo de su posición (de pie, tumbado horizontalmente o tumbado verticalmente)
+     *  si puede moverse actualizamos su coordenada base y volvemos a llamar encontrarCaminoAbajo.
+     *  En el caso de que la llamada recursiva devuelva false (No ha encontrado ningún camino) colocamos el rectángulo
+     *  en su posición original y eliminamos de la lista comprobaciones el movimiento realizado (Backtracking) y devolvemos false.
      * @param rectangulo Objeto rectángulo para saber en qué posición se encuentra el rectángulo
      * @param mapa Mapa a resolver
      * @return Devuelve true si ha encontrado un camino, false en caso contrario
@@ -211,10 +213,10 @@ public class Bloxorz {
     }
 
     /**
-     * * Este método llama recursivamente a encontrarCaminoIzquierda, primero comprueba que el rectángulo se pueda mover hacia abajo
-     * * dependiendo de su posición, si puede moverse actualizamos su coordenada base y volvemos a llamar encontrarCaminoIzquierda.
-     * * En el caso de que la llamada recursiva devuelva false (No ha encontrado ningún camino) colocamos el rectángulo
-     * * en su posición original y eliminamos de la lista comprobaciones el movimiento realizado (Backtracking) y devolvemos false.
+     *  Este método llama recursivamente a encontrarCaminoIzquierda, primero comprueba que el rectángulo se pueda mover hacia la izquierda
+     *  dependiendo de su posición, si puede moverse actualizamos su coordenada base y volvemos a llamar encontrarCaminoIzquierda.
+     *  En el caso de que la llamada recursiva devuelva false (No ha encontrado ningún camino) colocamos el rectángulo
+     *  en su posición original y eliminamos de la lista comprobaciones el movimiento realizado (Backtracking) y devolvemos false.
      * @param rectangulo Objeto rectángulo para saber en qué posición se encuentra el rectángulo
      * @param mapa Mapa a devolver
      * @return Devuelve true si ha encontrado un camino, false en caso contrario
@@ -264,10 +266,10 @@ public class Bloxorz {
         return false;
     }
     /**
-     * * Este método llama recursivamente a encontrarCaminoDerecha, primero comprueba que el rectángulo se pueda mover hacia abajo
-     * * dependiendo de su posición, si puede moverse actualizamos su coordenada base y volvemos a llamar encontrarCaminoDerecha.
-     * * En el caso de que la llamada recursiva devuelva false (No ha encontrado ningún camino) colocamos el rectángulo
-     * * en su posición original y eliminamos de la lista comprobaciones el movimiento realizado (Backtracking) y devolvemos false.
+     *  Este método llama recursivamente a encontrarCaminoDerecha, primero comprueba que el rectángulo se pueda mover hacia la derecha
+     *  dependiendo de su posición, si puede moverse actualizamos su coordenada base y volvemos a llamar encontrarCaminoDerecha.
+     *  En el caso de que la llamada recursiva devuelva false (No ha encontrado ningún camino) colocamos el rectángulo
+     *  en su posición original y eliminamos de la lista comprobaciones el movimiento realizado (Backtracking) y devolvemos false.
      * @param rectangulo Objeto rectángulo para saber en qué posición se encuentra el rectángulo
      * @param mapa Mapa a devolver
      * @return Devuelve true si ha encontrado un camino, false en caso contrario
@@ -318,10 +320,10 @@ public class Bloxorz {
         return false;
     }
     /**
-     * * Este método llama recursivamente a encontrarCaminoArriba, primero comprueba que el rectángulo se pueda mover hacia abajo
-     * * dependiendo de su posición, si puede moverse actualizamos su coordenada base y volvemos a llamar encontrarCaminoArriba.
-     * * En el caso de que la llamada recursiva devuelva false (No ha encontrado ningún camino) colocamos el rectángulo
-     * * en su posición original y eliminamos de la lista comprobaciones el movimiento realizado (Backtracking) y devolvemos false.
+     *  Este método llama recursivamente a encontrarCaminoArriba, primero comprueba que el rectángulo se pueda mover hacia arriba
+     *  dependiendo de su posición, si puede moverse actualizamos su coordenada base y volvemos a llamar encontrarCaminoArriba.
+     *  En el caso de que la llamada recursiva devuelva false (No ha encontrado ningún camino) colocamos el rectángulo
+     *  en su posición original y eliminamos de la lista comprobaciones el movimiento realizado (Backtracking) y devolvemos false.
      * @param rectangulo Objeto rectángulo para saber en qué posición se encuentra el rectángulo
      * @param mapa Mapa a devolver
      * @return Devuelve true si ha encontrado un camino, false en caso contrario
@@ -338,16 +340,13 @@ public class Bloxorz {
                 rectangulo.setDePie(false);
                 rectangulo.setHorizontal(false);
                 combinaciones.add("Arriba");
-                if(encontrarCaminoArriba(getX - 2, getY, mapa, rectangulo)){
+                if(encontrarCaminoArriba(getX - 2, getY, mapa, rectangulo))
                     return true;
-                } else {
-                    rectangulo.setPunto1(new Punto(getX, getY));
-                    combinaciones.remove(combinaciones.size() - 1);
-                }
+                rectangulo.setPunto1(new Punto(getX, getY));
+                combinaciones.remove(combinaciones.size() - 1);
             }
             rectangulo.setDePie(true);
         } else {
-            // * Caso si el rectangulo se encuentra tumbado horizontalmente
             if(rectangulo.isHorizontal()){
                 if(comprobarRango(getX - 1, getY, getX - 1, getY - 1, rectangulo, mapa)){
                     rectangulo.setPunto1(new Punto(getX - 1, getY));
@@ -380,8 +379,8 @@ public class Bloxorz {
     }
 
     /**
-     * * Este es el inicio de la busqueda, como no se ha hecho ningún movimiento comprobamos todos los
-     * * posbiles movimientos
+     * * Este es el inicio de la búsqueda, como no se ha hecho ningún movimiento previo, comprobamos todos los
+     * * posibles movimientos
      * @param x Fila donde se encuentra la base
      * @param y Columna donde se encuentra la base
      * @param mapa Mapa a resolver
