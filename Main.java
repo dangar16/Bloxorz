@@ -59,6 +59,8 @@ public class Main {
                           {0,1,1,0,1,1,0},
                           {0,1,1,1,1,1,0}};
 
+        // * Tienes que indicar la posición inicial del rectángulo y hacia donde tiene que llegar
+
         bloxorz.encontrarSolucion(mapa11, 0,0, 0, 6);
         System.out.println(bloxorz.getCombinaciones());
 
